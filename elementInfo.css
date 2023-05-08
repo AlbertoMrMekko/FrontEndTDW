@@ -1,0 +1,61 @@
+html {
+    background-color: #C7FEFD;
+}
+
+a {
+    color: #2298B3;
+    font-size: large;
+}
+
+h1 {
+    color: #198CA6;
+    font-size: xx-large;
+    font-style: oblique;
+    text-align: center;
+}
+
+h3, h4, p {
+    color: #198CA6;
+    font-size: x-large;
+}
+
+aside {
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 30%;
+    color: #2298B3;
+    float: right;
+    text-align: center;
+}
+
+iframe {
+    width: 40%;
+    height: 500px;
+    float: right;
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+img {
+    width: 60%;
+    text-align: center;
+}
+
+footer {
+    width: 20%;
+    margin-left: 2%;
+}
+
+.foot1 {
+    margin-bottom: 1%;
+}
+
+.foot2 {
+    right: 0;
+    margin-top: 1%;
+}
+
+.imageFooter {
+    width: 20%;
+}

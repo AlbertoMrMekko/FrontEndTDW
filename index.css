@@ -1,0 +1,62 @@
+html {
+    background-color: #C7FEFD;
+}
+
+a {
+    color: #2298B3;
+    font-size: x-large;
+}
+
+p {
+    color: #198CA6;
+    font-size: x-large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+img {
+    width: 10%;
+}
+
+h1 {
+    color: #198CA6;
+    font-size: xx-large;
+    font-style: oblique;
+    text-align: center;
+}
+
+td {
+    width: 33%;
+    vertical-align: middle;
+    margin-bottom: 2%;
+}
+
+.section1 {
+    margin-top: 2%;
+    text-align: center;
+}
+
+.section2 {
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.username {
+    margin-right: 0.25%;
+    color: #198CA6;
+
+}
+
+.contraseña {
+    margin-left: 1%;
+    margin-right: 0.25%;
+    color: #198CA6;
+}
+
+.login {
+    margin-left: 1%;
+}
+
+.createButton {
+    margin-top: 5%;
+    margin-left: 5%;
+}
