@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'tdw/aciencia',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '01df18175d703a000e0927e180f2f0eeac78ba29',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -191,9 +191,9 @@
             'dev_requirement' => false,
         ),
         'doctrine/orm' => array(
-            'pretty_version' => '2.15.0',
-            'version' => '2.15.0.0',
-            'reference' => '7b5fafffbeb560e75adc349e71bf1e90463796d2',
+            'pretty_version' => '2.15.1',
+            'version' => '2.15.1.0',
+            'reference' => '9bc6f5b4ac6f1e7d4248b2efbd01a748782075bc',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doctrine/orm',
             'aliases' => array(),
@@ -1068,9 +1068,9 @@
             'dev_requirement' => false,
         ),
         'tdw/aciencia' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '01df18175d703a000e0927e180f2f0eeac78ba29',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

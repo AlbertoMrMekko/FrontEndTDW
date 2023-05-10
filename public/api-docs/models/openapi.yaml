@@ -21,8 +21,12 @@ tags:
     description: User login
   - name: '👥 Users'
     description: User management
-  - name: '💡 Products'
+  - name: '🛒 Products'
     description: Product management
+  - name: '🏠 Entities'
+    description: Entity management
+  - name: '🎭 Persons'
+    description: Person management
 
 paths:
   '/access_token':
@@ -278,11 +282,10 @@ paths:
           description: Username exists &lt;Response body is empty&gt;
         '404':
           $ref: '#/components/responses/Response_404'
-
   '/products':
     get:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Retrieves the collection of Product resources.
       description: Returns all products from the system that the user has access to.
       operationId: readProducts
@@ -311,7 +314,7 @@ paths:
           $ref: '#/components/responses/Response_404'
     post:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Creates a Product resource.
       description: Creates a new product
       operationId: createProduct
@@ -339,7 +342,7 @@ paths:
           $ref: '#/components/responses/Response_422'
     options:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Provides the list of HTTP supported methods.
       description: Return a `Allow` header with a comma separated list of HTTP supported methods.
       operationId: cOptionsProduct
@@ -355,7 +358,7 @@ paths:
       - $ref: '#/components/parameters/productId'
     get:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Retrieves a Product resource based on a single ID.
       description: Returns the product identified by `productId`.
       operationId: readProduct
@@ -375,7 +378,7 @@ paths:
           $ref: '#/components/responses/Response_404'
     put:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Updates the Product resource.
       description: Updates the product identified by `productId`.
       operationId: updateProduct
@@ -404,7 +407,7 @@ paths:
           $ref: '#/components/responses/Response_412'
     delete:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Removes the Product resource.
       description: Deletes the product identified by `productId`.
       operationId: deleteProduct
@@ -421,7 +424,7 @@ paths:
           $ref: '#/components/responses/Response_404'
     options:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Provides the list of HTTP supported methods.
       description: Return a `Allow` header with a comma separated list of HTTP supported methods.
       operationId: optionsProduct
@@ -434,7 +437,7 @@ paths:
   '/products/productname/{productname}':
     get:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Determines if productname exists
       description: Returns status code 204 if `productname` exists.
       operationId: existsProduct
@@ -448,7 +451,7 @@ paths:
   '/products/{productId}/entities':
     get:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: List of entities related to the product
       description: Returns the entities related to the product `productId`
       operationId: readProductEntities
@@ -479,7 +482,7 @@ paths:
   '/products/{productId}/persons':
     get:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: List of persons related to the product
       description: Returns the persons related to the product `productId`
       operationId: readProductPersons
@@ -510,7 +513,7 @@ paths:
   '/products/{productId}/entities/{operation}/{entityId}':
     put:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Sets or remove the relationship product-entity
       description: Establishes/Removes the relationship of the product with the entity
       operationId: api_products_add_rem_entity
@@ -538,7 +541,7 @@ paths:
   '/products/{productId}/persons/{operation}/{personId}':
     put:
       tags:
-        - '💡 Products'
+        - '🛒 Products'
       summary: Sets or remove the relationship product-person
       description: Establishes/Removes the relationship of the product with the person
       operationId: api_products_add_rem_person
@@ -563,7 +566,574 @@ paths:
           $ref: '#/components/responses/Response_404'
         '406':
           $ref: '#/components/responses/Response_406'
+  '/entities':
+    get:
+      tags:
+        - '🏠 Entities'
+      summary: Retrieves the collection of Entity resources.
+      description: Returns all entities from the system that the user has access to.
+      operationId: readEntities
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/orderParam'
+        - $ref: '#/components/parameters/orderingParam'
+      responses:
+        '200':
+          description: Array of entities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entities:
+                    description: Entities array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    post:
+      tags:
+        - '🏠 Entities'
+      summary: Creates an Entity resource.
+      description: Creates a new entity
+      operationId: createEntity
+      security:
+        - MiWApiSecurity: [ writer ]
+      requestBody:
+        $ref: '#/components/requestBodies/ElementRequestBody'
+      responses:
+        '201':
+          description: '`Created`: entity created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+        '400':
+          $ref: '#/components/responses/Response_400'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '422':
+          $ref: '#/components/responses/Response_422'
+    options:
+      tags:
+        - '🏠 Entities'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: cOptionsEntity
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
 
+  '/entities/{entityId}':
+    parameters:
+      - $ref: '#/components/parameters/entityId'
+    get:
+      tags:
+        - '🏠 Entities'
+      summary: Retrieves an Entity resource based on a single ID.
+      description: Returns the entity identified by `entityId`.
+      operationId: readEntity
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      responses:
+        '200':
+          description: Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    put:
+      tags:
+        - '🏠 Entities'
+      summary: Updates the Entity resource.
+      description: Updates the entity identified by `entityId`.
+      operationId: updateEntity
+      security:
+        - MiWApiSecurity: [ writer ]
+      requestBody:
+        $ref: '#/components/requestBodies/ElementRequestBody'
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      responses:
+        '209':
+          description: '`Content Returned`: entity previously existed and is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '400':
+          $ref: '#/components/responses/Response_400'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        # '403':
+        #   $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '412':
+          $ref: '#/components/responses/Response_412'
+    delete:
+      tags:
+        - '🏠 Entities'
+      summary: Removes the Entity resource.
+      description: Deletes the entity identified by `entityId`.
+      operationId: deleteEntity
+      security:
+        - MiWApiSecurity: [ writer ]
+      responses:
+        '204':
+          description: Entity deleted &lt;Response body is empty&gt;
+        '401':
+          $ref: '#/components/responses/Response_401'
+        # '403':
+        #   $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    options:
+      tags:
+        - '🏠 Entities'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: optionsEntity
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+  '/entities/entityname/{entityname}':
+    get:
+      tags:
+        - '🏠 Entities'
+      summary: Determines if entityname exists
+      description: Returns status code 204 if `entityname` exists.
+      operationId: existsEntity
+      parameters:
+        - $ref: '#/components/parameters/entityName'
+      responses:
+        '204':
+          description: Entityname exists &lt;Response body is empty&gt;
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/entities/{entityId}/products':
+    get:
+      tags:
+        - '🏠 Entities'
+      summary: List of products related to the entity
+      description: Returns the products related to the entity `entityId`
+      operationId: readEntityProducts
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/entityId'
+      responses:
+        '200':
+          description: Array of Products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    description: Product array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        # '401':
+        #   $ref: '#/components/responses/Response_401'
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/entities/{entityId}/persons':
+    get:
+      tags:
+        - '🏠 Entities'
+      summary: List of persons related to the entity
+      description: Returns the persons related to the entity `entityId`
+      operationId: readEntityPersons
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/entityId'
+      responses:
+        '200':
+          description: Array of Persons
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  persons:
+                    description: Person array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Person'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        # '401':
+        #   $ref: '#/components/responses/Response_401'
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/entities/{entityId}/products/{operation}/{productId}':
+    put:
+      tags:
+        - '🏠 Entities'
+      summary: Sets or remove the relationship entity-product
+      description: Establishes/Removes the relationship of the entity with the product
+      operationId: api_entities_add_rem_product
+      security:
+        - MiWApiSecurity: [ writer ]
+      parameters:
+        - $ref: '#/components/parameters/entityId'
+        - $ref: '#/components/parameters/operationParam'
+        - $ref: '#/components/parameters/productId'
+      responses:
+        '209':
+          description: '`Content Returned`: entity is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '406':
+          $ref: '#/components/responses/Response_406'
+  '/entities/{entityId}/persons/{operation}/{personId}':
+    put:
+      tags:
+        - '🏠 Entities'
+      summary: Sets or remove the relationship entity-person
+      description: Establishes/Removes the relationship of the entity with the person
+      operationId: api_entities_add_rem_person
+      security:
+        - MiWApiSecurity: [ writer ]
+      parameters:
+        - $ref: '#/components/parameters/entityId'
+        - $ref: '#/components/parameters/operationParam'
+        - $ref: '#/components/parameters/personId'
+      responses:
+        '209':
+          description: '`Content Returned`: entity is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '406':
+          $ref: '#/components/responses/Response_406'
+  '/persons':
+    get:
+      tags:
+        - '🎭 Persons'
+      summary: Retrieves the collection of Person resources.
+      description: Returns all persons from the system that the user has access to.
+      operationId: readPersons
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/orderParam'
+        - $ref: '#/components/parameters/orderingParam'
+      responses:
+        '200':
+          description: Array of persons
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    description: Persons array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Person'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    post:
+      tags:
+        - '🎭 Persons'
+      summary: Creates a Person resource.
+      description: Creates a new person
+      operationId: createPerson
+      security:
+        - MiWApiSecurity: [ writer ]
+      requestBody:
+        $ref: '#/components/requestBodies/ElementRequestBody'
+      responses:
+        '201':
+          description: '`Created`: person created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+        '400':
+          $ref: '#/components/responses/Response_400'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '422':
+          $ref: '#/components/responses/Response_422'
+    options:
+      tags:
+        - '🎭 Persons'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: cOptionsPerson
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+
+  '/persons/{personId}':
+    parameters:
+      - $ref: '#/components/parameters/personId'
+    get:
+      tags:
+        - '🎭 Persons'
+      summary: Retrieves a Person resource based on a single ID.
+      description: Returns the person identified by `personId`.
+      operationId: readPerson
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      responses:
+        '200':
+          description: Person
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    put:
+      tags:
+        - '🎭 Persons'
+      summary: Updates the Person resource.
+      description: Updates the person identified by `personId`.
+      operationId: updatePerson
+      security:
+        - MiWApiSecurity: [ writer ]
+      requestBody:
+        $ref: '#/components/requestBodies/ElementRequestBody'
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      responses:
+        '209':
+          description: '`Content Returned`: person previously existed and is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '400':
+          $ref: '#/components/responses/Response_400'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        # '403':
+        #   $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '412':
+          $ref: '#/components/responses/Response_412'
+    delete:
+      tags:
+        - '🎭 Persons'
+      summary: Removes the Person resource.
+      description: Deletes the person identified by `personId`.
+      operationId: deletePerson
+      security:
+        - MiWApiSecurity: [ writer ]
+      responses:
+        '204':
+          description: Person deleted &lt;Response body is empty&gt;
+        '401':
+          $ref: '#/components/responses/Response_401'
+        # '403':
+        #   $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    options:
+      tags:
+        - '🎭 Persons'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: optionsPerson
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+  '/persons/personname/{personname}':
+    get:
+      tags:
+        - '🎭 Persons'
+      summary: Determines if personname exists
+      description: Returns status code 204 if `personname` exists.
+      operationId: existsPerson
+      parameters:
+        - $ref: '#/components/parameters/personName'
+      responses:
+        '204':
+          description: Personname exists &lt;Response body is empty&gt;
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/persons/{personId}/products':
+    get:
+      tags:
+        - '🎭 Persons'
+      summary: List of products related to the person
+      description: Returns the products related to the person `personId`
+      operationId: readPersonProducts
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/personId'
+      responses:
+        '200':
+          description: Array of Persons
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    description: Product array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        # '401':
+        #   $ref: '#/components/responses/Response_401'
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/persons/{personId}/entities':
+    get:
+      tags:
+        - '🎭 Persons'
+      summary: List of entities related to the person
+      description: Returns the entities related to the person `personId`
+      operationId: readPersonEntities
+      # security:
+      #   - MiWApiSecurity: [ reader ]
+      parameters:
+        - $ref: '#/components/parameters/personId'
+      responses:
+        '200':
+          description: Array of Entities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entities:
+                    description: Entity array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+        # '401':
+        #   $ref: '#/components/responses/Response_401'
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/persons/{personId}/products/{operation}/{productId}':
+    put:
+      tags:
+        - '🎭 Persons'
+      summary: Sets or remove the relationship person-product
+      description: Establishes/Removes the relationship of the person with the product
+      operationId: api_persons_add_rem_product
+      security:
+        - MiWApiSecurity: [ writer ]
+      parameters:
+        - $ref: '#/components/parameters/personId'
+        - $ref: '#/components/parameters/operationParam'
+        - $ref: '#/components/parameters/productId'
+      responses:
+        '209':
+          description: '`Content Returned`: person is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '406':
+          $ref: '#/components/responses/Response_406'
+  '/persons/{personId}/entities/{operation}/{entityId}':
+    put:
+      tags:
+        - '🎭 Persons'
+      summary: Sets or remove the relationship person-entity
+      description: Establishes/Removes the relationship of the person with the entity
+      operationId: api_persons_add_rem_entity
+      security:
+        - MiWApiSecurity: [ writer ]
+      parameters:
+        - $ref: '#/components/parameters/personId'
+        - $ref: '#/components/parameters/operationParam'
+        - $ref: '#/components/parameters/entityId'
+      responses:
+        '209':
+          description: '`Content Returned`: person is now updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '401':
+          $ref: '#/components/responses/Response_401'
+        '403':
+          $ref: '#/components/responses/Response_403'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '406':
+          $ref: '#/components/responses/Response_406'
 components:
   schemas:
     User:
@@ -957,6 +1527,22 @@ components:
       name: productname
       in: path
       description: Product name
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9()áéíóúÁÉÍÓÚñÑ %$\.+-]+$'
+    entityName:
+      name: entityname
+      in: path
+      description: Entity name
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9()áéíóúÁÉÍÓÚñÑ %$\.+-]+$'
+    personName:
+      name: personname
+      in: path
+      description: Person name
       required: true
       schema:
         type: string
